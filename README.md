@@ -26,13 +26,26 @@ All about quarkus
 
 In properties file we can have something like:
 
-```
+```properties
 %dev.quarkus.log.console.level=DEBUG
 %test.quarkus.log.console.level=TRACE
 %prod.quarkus.log.console.level=SEVERE
 
 %prod.books.genre=Information Technology
 %staging.books.genre=Custom
+```
+
+### Packaging and Executing JARs
+```bash
+  mvn package
+  mvn package -Dquarkus.package.type=jar
+  mvn package -Dquarkus.package.type=legacy-jar
+  mvn package -Dquarkus.package.type=uber-jar
+  java -jar target/quarkus-run.jar 
+  
+  mvn package -Dquarkus.package.type=native
+  mvn package -Pnative
+  
 ```
 
 
