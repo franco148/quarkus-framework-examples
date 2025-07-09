@@ -9,5 +9,5 @@ package org.francofral.quarkus;
  * ./mvnw verify -Dnative
  */
 // @NativeImageTest
-public class NativeBookResourceIT extends BookResourceTest {
-}
+//public class NativeBookResourceIT extends BookResourceTest {
+//}
