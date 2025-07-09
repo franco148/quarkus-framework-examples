@@ -1,16 +1,22 @@
 package com.francofral;
 
 import com.francofral.entity.Game;
+import com.francofral.entity.ResponseModel;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Path("/games")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class GameResource {
 
     private List<Game>  games;
@@ -24,7 +30,6 @@ public class GameResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getGames(@HeaderParam("page") int page,
                              @HeaderParam("size") int size,
                              @QueryParam("name") String name,
@@ -66,7 +71,6 @@ public class GameResource {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getGame(@PathParam("id") int id) {
         return games.stream()
                 .filter(v -> v.getId() == id)
@@ -75,5 +79,51 @@ public class GameResource {
                         .cookie(new NewCookie("gameCategory", v.getCategory(), "/", null, "Games Category", 3600, false))
                         .build())
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
+    }
+
+    @POST
+    public Response createGame(Game game) {
+        long id = games.stream().max(Comparator.comparingLong(Game::getId)).get().getId() + 1;
+        game.setId(id);
+        games.add(game);
+
+        return Response.ok(new ResponseModel("Game created successfully", 201)).build();
+    }
+
+    @PATCH
+    public Response updateGame(Game game) {
+        games.stream()
+                .filter(v -> v.getId() == game.getId())
+                .findFirst()
+                .ifPresent(v -> {
+                    if (game.getName() != null && !game.getName().isEmpty()) {
+                        v.setName(game.getName());
+                    }
+                    if (game.getCategory() != null && !game.getCategory().isEmpty()) {
+                        v.setCategory(game.getCategory());
+                    }
+                });
+
+        return Response.ok(new ResponseModel("Game updated successfully", 200)).build();
+    }
+
+    @PUT
+    public Response replaceGame(Game game) {
+        OptionalInt index = IntStream.range(0, games.size())
+                .filter(i -> games.get(i).getId() == game.getId())
+                .findFirst();
+
+        if (index.isPresent()) {
+            games.set(index.getAsInt(), game);
+        }
+
+        return Response.ok(new ResponseModel("Game updated successfully", 200)).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteGame(@PathParam("id")  int id) {
+        games.removeIf(v -> v.getId() == id);
+        return Response.ok(new ResponseModel("Game deleted successfully", 200)).build();
     }
 }
