@@ -2,6 +2,8 @@ package com.francofral;
 
 import com.francofral.entity.Game;
 import com.francofral.entity.ResponseModel;
+import com.francofral.service.GameService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
@@ -35,6 +37,9 @@ import java.util.stream.IntStream;
 public class GameResource {
 
     private List<Game>  games;
+
+    @Inject
+    private GameService gameService;
 
     public GameResource() {
         this.games = new ArrayList<>();
