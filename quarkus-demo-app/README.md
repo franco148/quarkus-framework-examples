@@ -53,6 +53,9 @@ You can then execute your native executable with: `./target/quarkus-demo-app-1.0
 
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
 
+## Open Api
+- localhost:8080/q/swagger-ui
+
 ## Related Guides
 
 - REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and

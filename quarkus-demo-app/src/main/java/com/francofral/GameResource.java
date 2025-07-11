@@ -6,6 +6,12 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,6 +23,15 @@ import java.util.stream.IntStream;
 @Path("/games")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@APIResponse(
+    responseCode = "200",
+    description = "Return operation data",
+    content = @Content(
+        mediaType = "application/json",
+        schema = @Schema(implementation = ResponseModel.class)
+    )
+)
+@Tag(name = "Game controller")
 public class GameResource {
 
     private List<Game>  games;
@@ -30,6 +45,18 @@ public class GameResource {
     }
 
     @GET
+    @Operation(
+        summary = "Get all games",
+        description = "Retrieves a paginated list of games. The results can be filtered by game name and sorted by the game category specified in the cookies."
+    )
+    @APIResponse(
+        responseCode = "200",
+        description = "Return games list",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = Game.class, type = SchemaType.ARRAY)
+        )
+    )
     public Response getGames(@HeaderParam("page") int page,
                              @HeaderParam("size") int size,
                              @QueryParam("name") String name,

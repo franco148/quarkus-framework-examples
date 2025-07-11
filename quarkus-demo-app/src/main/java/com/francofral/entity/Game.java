@@ -1,8 +1,14 @@
 package com.francofral.entity;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+@Schema(description = "Game model")
 public class Game {
+    @Schema(description = "Game id", example = "10")
     private long id;
+    @Schema(description = "Name of game", example = "Dota")
     private String name;
+    @Schema(description = "Category of game", example = "EG")
     private String category;
 
     public Game() {
