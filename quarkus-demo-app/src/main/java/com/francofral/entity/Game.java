@@ -1,10 +1,19 @@
 package com.francofral.entity;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Schema(description = "Game model")
-public class Game {
+public class Game extends PanacheEntityBase {
+
     @Schema(description = "Game id", example = "10")
+    @Id
+    @GeneratedValue(generator = "game_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "game_id_seq", sequenceName = "game_id_seq",  allocationSize = 1)
     private long id;
     @Schema(description = "Name of game", example = "Dota")
     private String name;
