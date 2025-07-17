@@ -1,13 +1,12 @@
 package com.francofral.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Schema(description = "Game model")
+@Entity
+@Table(name = "games")
 public class Game extends PanacheEntityBase {
 
     @Schema(description = "Game id", example = "10")
