@@ -1,6 +1,7 @@
 package com.francofral.service;
 
 import com.francofral.entity.Game;
+import com.francofral.exception.GameDontExistException;
 import com.francofral.repository.GameRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -52,12 +53,16 @@ public class GameService {
     @Transactional
     public void replaceGame(Game game) {
         gameRepository.findByIdOptional(game.getId())
-                .ifPresent(v -> gameRepository.persist(game));
+                .ifPresentOrElse(
+                v -> gameRepository.persist(game),
+                    () -> { throw new GameDontExistException("Game with id " + game.getId() + " doesn't exists"); }
+                );
     }
 
     @Transactional
     public void updateGame(Long id, String name, String category) {
-        gameRepository.findByIdOptional(id).ifPresent(game -> {
+        gameRepository.findByIdOptional(id).ifPresentOrElse(
+    game -> {
             if (name != null && !name.isEmpty()) {
                 game.setName(name);
             }
@@ -65,12 +70,16 @@ public class GameService {
                 game.setCategory(category);
             }
             gameRepository.persist(game);
-        });
+        },
+        () -> { throw new GameDontExistException("Game with id " + id + " doesn't exists"); });
     }
 
     @Transactional
     public void deleteGame(Long id) {
-        gameRepository.findByIdOptional(id).ifPresent(gameRepository::delete);
+        gameRepository.findByIdOptional(id).ifPresentOrElse(
+            gameRepository::delete,
+            () -> { throw new GameDontExistException("Game with id " + id + " doesn't exists"); }
+        );
     }
 }
 
