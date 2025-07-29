@@ -3,6 +3,7 @@ package com.francofral;
 import com.francofral.entity.Game;
 import com.francofral.entity.ResponseModel;
 import com.francofral.service.GameService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -41,6 +42,7 @@ public class GameResource {
 
 
     @GET
+    @RolesAllowed("user")
     @Operation(
         summary = "Get all games",
         description = "Retrieves a paginated list of games. The results can be filtered by game name and sorted by the game category specified in the cookies."
@@ -72,6 +74,7 @@ public class GameResource {
     }
 
     @GET
+    @RolesAllowed("CoffeEnjoer")
     @Path("/{id}")
     public Response getGame(@PathParam("id") long id) {
         return gameService.findById(id)
@@ -82,6 +85,7 @@ public class GameResource {
     }
 
     @POST
+    @RolesAllowed("admin")
     public Response createGame(Game game) {
         gameService.createGame(game);
 
