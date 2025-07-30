@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.bmuschko.docker-java-application' version '9.4.0'
+}
+
+application {
+    mainClass.set('info.batey.ergonomics.Ergonomics')
+}
+
+docker {
+    javaApplication {
+        baseImage = 'eclipse-temurin:21'  // Or use any other Java 21-compatible image
+        maintainer = 'Franco Arratia'
+        ports = [8585]                    // Optional: if your app listens on this port
+        images = ['ergonomics:latest']
+    }
+}

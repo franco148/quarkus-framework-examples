@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.bmuschko.docker-java-application' version '9.4.0'
+}
+
+application {
+    mainClass.set('info.batey.cpushares.CpuShares')
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+docker {
+    javaApplication {
+        baseImage = 'eclipse-temurin:21'  // Or use any other Java 21-compatible image
+        maintainer = 'Franco Arratia'
+        ports = [8282]                    // Optional: if your app listens on this port
+        images = ['cpu-shares:latest']
+    }
+}

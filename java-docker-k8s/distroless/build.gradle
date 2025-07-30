@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'com.bmuschko.docker-java-application' version '9.4.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'info.batey.Distroless'
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+
+docker {
+    javaApplication {
+        baseImage = 'eclipse-temurin:21'  // Or use any other Java 21-compatible image
+        maintainer = 'Franco Arratia'
+        ports = [8484]                    // Optional: if your app listens on this port
+        images = ['distroless:latest']
+    }
+}

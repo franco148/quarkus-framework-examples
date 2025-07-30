@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-app-deployment
+  labels:
+    app: server-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: server-app
+  template:
+    metadata:
+      labels:
+        app: server-app
+    spec:
+      containers:
+        - name: server-app
+          imagePullPolicy: Never
+          image: server-app:latest
+          ports:
+          - containerPort: 8080
+            name: http
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: 8080
+            initialDelaySeconds: 1
+          readinessProbe:
+           httpGet:
+            path: /ready
+            port: 8080
+           initialDelaySeconds: 5
+           periodSeconds: 10
+

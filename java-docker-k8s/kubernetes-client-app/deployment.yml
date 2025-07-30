@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-app-deployment
+  labels:
+    app: client-app
+spec:
+  1replicas:
+  selector:
+    matchLabels:
+      app: client-app
+  template:
+    metadata:
+      labels:
+        app: client-app
+    spec:
+      containers:
+        - name: client-app
+          # only for use in minikube as we will push the images locally
+          imagePullPolicy: Never
+          image: client-app:latest

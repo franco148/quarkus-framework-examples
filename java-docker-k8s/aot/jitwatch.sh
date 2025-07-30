@@ -1,0 +1,1 @@
+java -XX:+UnlockExperimentalVMOptions  -XX:AOTLibrary=aot.dylib   -XX:+UnlockDiagnosticVMOptions -XX:+TraceClassLoading -XX:+LogCompilation -XX:+PrintAssembly -XX:PrintAssemblyOptions=intel  -XX:LogFile=jit.log -jar ./build/libs/aot.jar

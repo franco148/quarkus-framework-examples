@@ -1,0 +1,12 @@
+plugins {
+    id 'java'
+}
+
+// makes the jar runnable without specifying a main method, not needed when using the package created by
+// the application plugin as it adds the main class to the startup script
+jar {
+    manifest {
+        attributes 'Main-Class': 'info.batey.graalvm.http.HttpServer'
+    }
+}
+
