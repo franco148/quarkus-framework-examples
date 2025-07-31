@@ -1,4 +1,4 @@
-rootProject.name = "sample-project"
+rootProject.name = "java-docker-k8s"
 include "ergonomics"
 include "intro"
 include "cpu-shares"
